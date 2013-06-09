@@ -183,6 +183,7 @@ static int mfc_release(struct inode *inode, struct file *file)
 
 	ret = 0;
 
+out_release:
 	if (!mfc_is_running()) {
 #ifdef CONFIG_DVFS_LIMIT
 		s5pv210_unlock_dvfs_high_level(DVFS_LOCK_TOKEN_1);
@@ -191,11 +192,8 @@ static int mfc_release(struct inode *inode, struct file *file)
 		ret = regulator_disable(mfc_pd_regulator);
 		if (ret < 0) {
 			mfc_err("MFC_RET_POWER_DISABLE_FAIL\n");
-			goto out_release;
 		}
 	}
-
-out_release:
 
 	mutex_unlock(&mfc_mutex);
 	return ret;
