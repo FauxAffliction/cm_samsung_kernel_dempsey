@@ -259,7 +259,7 @@ static void gps_gpio_init(void)
 	if (device_create_file(gps_dev, &dev_attr_hwrev) < 0)
 		pr_err("Failed to create device file(%s)!\n",
 		       dev_attr_hwrev.attr.name);
-	
+
 	gpio_request(GPIO_GPS_nRST, "GPS_nRST");	/* XMMC3CLK */
 	s3c_gpio_setpull(GPIO_GPS_nRST, S3C_GPIO_PULL_NONE);
 	s3c_gpio_cfgpin(GPIO_GPS_nRST, S3C_GPIO_OUTPUT);
@@ -364,7 +364,7 @@ static struct s3cfb_lcd s6e63m0 = {
 	.p_height = 86,
 	.bpp = 24,
 	.freq = 60,
-	
+
   .timing = {
     .h_fp = 82, 
     .h_bp = 2, 
@@ -1290,7 +1290,7 @@ static struct max8998_adc_table_data temper_table[] =  {
 
 #elif defined (CONFIG_S5PC110_HAWK_BOARD)
 static struct max8998_adc_table_data temper_table[] =  {
-	
+
 	/* ADC, Temperature (C) */
 	{ 206,		700	},
 	{ 220,		690	},
@@ -1552,7 +1552,7 @@ static struct max8998_adc_table_data temper_table[] =  {
 	{ 1485, 	30 	},
 	{ 1504, 	20 	},	
 	{ 1525, 	10 	}, // +10
-	{ 1547, 	0 	}, // 10 // 0¥ì¥ì ¢¯A¥ì¥ì
+	{ 1547, 	0 	}, // 10 // 0Â¥Ã¬Â¥Ã¬ Â¢Â¯AÂ¥Ã¬Â¥Ã¬
 	{ 1562, 	-10 	},
 	{ 1585, 	-20 	},
 	{ 1595, 	-30 	},
@@ -1561,7 +1561,7 @@ static struct max8998_adc_table_data temper_table[] =  {
 	{ 1641,		-60 	},
 	{ 1652, 	-70 	},
 	{ 1667, 	-80 	},
-	{ 1708, 	-100 	}, //-10¥ì¥ì ¢¯A¥ì¥ì
+	{ 1708, 	-100 	}, //-10Â¥Ã¬Â¥Ã¬ Â¢Â¯AÂ¥Ã¬Â¥Ã¬
 };
 #else
 static struct max8998_adc_table_data temper_table[] =  {
@@ -2027,7 +2027,7 @@ static int reset_lcd()
 
 	gpio_set_value(GPIO_MLCD_RST, 1);
 	msleep(20);
-	
+
 	gpio_free(GPIO_MLCD_RST);
 
 	return 1;
@@ -2084,7 +2084,7 @@ static struct s3cfb_lcd ldi_info = {
 	.p_height = 86,
 	.bpp = 24,
 	.freq = 60,
-	
+
 	.timing = {
 		.h_fp = 16,
 		.h_bp = 16,
@@ -2390,26 +2390,6 @@ static void touch_keypad_onoff(int onoff)
 		msleep(25);
 }
 
-static void touch_keypad_gpio_sleep(int onoff)
-{
-#if !defined (CONFIG_S5PC110_DEMPSEY_BOARD) 
-  if(onoff == TOUCHKEY_ON){
-    /*
-     * reconfigure gpio to activate touchkey controller vdd in sleep mode
-     */
-  s3c_gpio_slp_cfgpin(_3_GPIO_TOUCH_EN, S3C_GPIO_SLP_OUT1);
-    //s3c_gpio_slp_setpull_updown(_3_GPIO_TOUCH_EN, S3C_GPIO_PULL_NONE);
-  } else {
-    /*
-     * reconfigure gpio to deactivate touchkey vdd in sleep mode,
-     * this is the default
-     */
-  s3c_gpio_slp_cfgpin(_3_GPIO_TOUCH_EN, S3C_GPIO_SLP_OUT0);
-    //s3c_gpio_slp_setpull_updown(_3_GPIO_TOUCH_EN, S3C_GPIO_PULL_NONE);
-  }
-#endif
-} 
-
 #if defined (CONFIG_S5PC110_KEPLER_BOARD)
 static const int touch_keypad_code[] = {
 	KEY_MENU,
@@ -2466,7 +2446,6 @@ static struct touchkey_platform_data touchkey_data = {
 	.keycode_cnt = ARRAY_SIZE(touch_keypad_code),
 	.keycode = touch_keypad_code,
 	.touchkey_onoff = touch_keypad_onoff,
-	.touchkey_sleep_onoff = touch_keypad_gpio_sleep, 
 };
 
 static struct gpio_event_direct_entry aries_keypad_key_map[] = {
@@ -2616,7 +2595,7 @@ static void set_shared_mic_bias(void)
 	gpio_set_value(GPIO_MICBIAS_EN, wm8994_mic_bias);   	// GPJ4(2)
 	gpio_set_value(GPIO_EARMICBIAS_EN, jack_mic_bias);	// GPJ4(4) : Use earMicbias since hwrev-0.5
 	gpio_set_value(GPIO_EARPATH_SEL, wm8994_mic_bias || jack_mic_bias);
-	
+
 #elif defined(CONFIG_S5PC110_HAWK_BOARD)|| defined(CONFIG_S5PC110_VIBRANTPLUS_BOARD)
   	gpio_set_value(GPIO_MICBIAS_EN, wm8994_mic_bias);// GPJ4(2)
 	gpio_set_value(GPIO_MICBIAS_EN2, jack_mic_bias||wm8994_submic_bias); // GPJ2(5)
@@ -2843,7 +2822,7 @@ static int ce147_ldo_en(bool en)
 		goto off;
 	}
 	udelay(50);
-	
+
 	/* Turn CAM_SENSOR_A_2.8V(VDDA) on */
 	gpio_set_value(GPIO_GPB7, 1);
 	mdelay(1);
@@ -2910,7 +2889,7 @@ static int ce147_power_on(void)
 			pr_err("Failed to initialize camera regulators\n");
 			return -EINVAL;
 	}
-	
+
 	ce147_init();
 
 	/* CAM_VGA_nSTBY - GPB(0)  */
@@ -2930,7 +2909,7 @@ static int ce147_power_on(void)
 
 		return err;
 	}
-	
+
 	ce147_ldo_en(TRUE);
 
 	mdelay(1);
@@ -2992,10 +2971,10 @@ static int ce147_power_off(void)
 
 	/* CAM_IO_EN - GPB(7) */
 	err = gpio_request(GPIO_GPB7, "GPB7");
-	
+
 	if(err) {
 		printk(KERN_ERR "failed to request GPB7 for camera control\n");
-	
+
 		return err;
 	}
 
@@ -3004,16 +2983,16 @@ static int ce147_power_off(void)
 
 	if(err) {
 		printk(KERN_ERR "failed to request GPJ0 for camera control\n");
-	
+
 		return err;
 	}
 
 	/* CAM_MEGA_nRST - GPJ1(5) */
 	err = gpio_request(GPIO_CAM_MEGA_nRST, "GPJ1");
-	
+
 	if(err) {
 		printk(KERN_ERR "failed to request GPJ1 for camera control\n");
-	
+
 		return err;
 	}
 
@@ -3043,26 +3022,26 @@ static int ce147_power_off(void)
 
 	// CAM_VGA_nRST  LOW		
 	gpio_direction_output(GPIO_CAM_VGA_nRST, 1);
-	
+
 	gpio_set_value(GPIO_CAM_VGA_nRST, 0);
 
 	mdelay(1);
 
 	// CAM_MEGA_nRST - GPJ1(5) LOW
 	gpio_direction_output(GPIO_CAM_MEGA_nRST, 1);
-	
+
 	gpio_set_value(GPIO_CAM_MEGA_nRST, 0);
-	
+
 	mdelay(1);
 
 	// Mclk disable
 	s3c_gpio_cfgpin(GPIO_CAM_MCLK, 0);
-	
+
 	mdelay(1);
 
 	// CAM_MEGA_EN - GPJ0(6) LOW
 	gpio_direction_output(GPIO_CAM_MEGA_EN, 1);
-	
+
 	gpio_set_value(GPIO_CAM_MEGA_EN, 0);
 
 	mdelay(1);
@@ -3070,7 +3049,7 @@ static int ce147_power_off(void)
 	ce147_ldo_en(FALSE);
 
 	mdelay(1);
-	
+
 	gpio_free(GPIO_CAM_MEGA_EN);
 	gpio_free(GPIO_CAM_MEGA_nRST);
 	gpio_free(GPIO_CAM_VGA_nRST);
@@ -3129,7 +3108,7 @@ static int smdkc110_cam1_power(int onoff)
 	}
 
 	gpio_direction_output(S5PV210_GPB(0), 0);
-	
+
 	mdelay(1);
 
 	gpio_direction_output(S5PV210_GPB(0), 1);
@@ -3141,7 +3120,7 @@ static int smdkc110_cam1_power(int onoff)
 	mdelay(1);
 
 	gpio_free(S5PV210_GPB(0));
-	
+
 	mdelay(1);
 
 	/* CAM_VGA_nRST - GPB(2) */
@@ -3656,7 +3635,7 @@ static int s5k5ccgx_ldo_en(bool en)
 
 off:
 	result = err;
-	
+
 	/* ldo 16 */
 	/*Turn 3M &VGA CAM_IO_2.8V off*/
 	err = regulator_disable(cam_vga_vddio_regulator);
@@ -3688,7 +3667,7 @@ off:
 		pr_err("Failed to disable vga_core_regulator\n");
 		result = err;
 	}
-	
+
 	/* ldo 12 */
 	/*Turn 3M &VGA CAM_A_2.8V off*/
 	err = regulator_disable(cam_vga_avdd_regulator);
@@ -3712,7 +3691,7 @@ static int s5k5ccgx_power_on(void)
 		pr_err("Failed to initialize camera regulators\n");
 		return -EINVAL;
 	}
-	
+
 	/* CAM_MEGA_EN - GPJ0(6) */
 	err = gpio_request(GPIO_CAM_MEGA_EN, "GPJ0");
 	if(err) {
@@ -3740,12 +3719,12 @@ static int s5k5ccgx_power_on(void)
 		printk(KERN_ERR "failed to request GPJ14 for camera control\n");
 		return err;
 	}
-	
+
 	//LDO enable	
 	s5k5ccgx_ldo_en(TRUE);
-	
+
 	udelay(20); //20us
-	
+
 	// VGA CAM_VGA_EN HIGH
 	gpio_direction_output(S5PV210_GPJ1(2), 0);
 	gpio_set_value(S5PV210_GPJ1(2), 1);
@@ -3754,35 +3733,35 @@ static int s5k5ccgx_power_on(void)
 	s3c_gpio_cfgpin(GPIO_CAM_MCLK, S3C_GPIO_SFN(0x02));
 
 	mdelay(5); // 4ms
-	
+
 	// VGA CAM_VGA_nRST HIGH
 	gpio_direction_output(S5PV210_GPJ1(4), 0);
 	gpio_set_value(S5PV210_GPJ1(4), 1);
-	
+
 	mdelay(7); // 6ms
-	
+
 	// VGA CAM_VGA_EN LOW
 	gpio_direction_output(S5PV210_GPJ1(2), 0);
 	gpio_set_value(S5PV210_GPJ1(2), 0);
-	
+
 	udelay(15); //10us
-	
+
 	// CAM_MEGA_EN HIGH
 	gpio_direction_output(GPIO_CAM_MEGA_EN, 0);
 	gpio_set_value(GPIO_CAM_MEGA_EN, 1);
-	
+
 	udelay(20); //15us
-	
+
 	// CAM_MEGA_nRST HIGH
 	gpio_direction_output(GPIO_CAM_MEGA_nRST, 0);
 	gpio_set_value(GPIO_CAM_MEGA_nRST, 1);
-	
+
 	msleep(50); //50ms
-	
+
 	// VGA CAM_GPIO free
 	gpio_free(S5PV210_GPJ1(2));
 	gpio_free(S5PV210_GPJ1(4));
-	
+
 	//CAM_GPIO free
 	gpio_free(GPIO_CAM_MEGA_EN);
 	gpio_free(GPIO_CAM_MEGA_nRST);
@@ -3795,7 +3774,7 @@ static int s5k5ccgx_power_off(void)
 {
 	int err;
 	bool FALSE = false;
-	
+
 	printk(KERN_DEBUG "s5k5ccgx_power_off\n");
 
 	/* CAM_MEGA_EN - GPJ0(6) */
@@ -3804,56 +3783,56 @@ static int s5k5ccgx_power_off(void)
 		printk(KERN_ERR "failed to request GPJ0 for camera control\n");
 		return err;
 	}
-	
+
 	/* CAM_MEGA_nRST - GPJ1(5) */
 	err = gpio_request(GPIO_CAM_MEGA_nRST, "GPJ1");
 	if(err) {
 		printk(KERN_ERR "failed to request GPJ1 for camera control\n");
 		return err;
 	}
-	
+
 	/* CAM_VGA_EN - GPJ1(2) */
 	err = gpio_request(S5PV210_GPJ1(2), "GPJ12");
 	if(err) {
 		printk(KERN_ERR "failed to request GPJ12 for camera control\n");
 		return err;
 	}
-	
+
 	/* CAM_VGA_nRST - GPJ1(4) */
 	err = gpio_request(S5PV210_GPJ1(4), "GPJ14");
 	if(err) {
 		printk(KERN_ERR "failed to request GPJ14 for camera control\n");
 		return err;
 	}
-		
+
 	// 3M CAM_MEGA_nRST - GPJ1(5) LOW
 	gpio_direction_output(GPIO_CAM_MEGA_nRST, 0);
 	gpio_set_value(GPIO_CAM_MEGA_nRST, 0);
-	
+
 	udelay(50); //50us
-	
+
 	// 3M&VGA Mclk disable
 	s3c_gpio_cfgpin(GPIO_CAM_MCLK, 0);
-	
+
 	// 3M CAM_MEGA_EN - GPJ0(6) LOW
 	gpio_direction_output(GPIO_CAM_MEGA_EN, 0);
 	gpio_set_value(GPIO_CAM_MEGA_EN, 0);
-	
+
 	// VGA CAM_VGA_nRST - GPJ1(4) LOW
 	gpio_direction_output(S5PV210_GPJ1(4), 0);
 	gpio_set_value(S5PV210_GPJ1(4), 0);
-	
+
 	// VGA CAM_VGA_EN - GPJ1(2) LOW
 	gpio_direction_output(S5PV210_GPJ1(2), 0);
 	gpio_set_value(S5PV210_GPJ1(2), 0);
-	
+
 	//LDO disable
 	s5k5ccgx_ldo_en(FALSE);
-	
+
 	// VGA CAM_GPIO free
 	gpio_free(S5PV210_GPJ1(2));
 	gpio_free(S5PV210_GPJ1(4));
-	
+
 	//CAM_GPIO free
 	gpio_free(GPIO_CAM_MEGA_EN);
 	gpio_free(GPIO_CAM_MEGA_nRST);
@@ -4063,7 +4042,7 @@ static int SR030pc30_ldo_en(bool en)
 
 off:
 	result = err;
-	
+
 	/* ldo 16 */
 	/*Turn 3M &VGA CAM_IO_2.8V off*/
 	err = regulator_disable(cam_vga_vddio_regulator);
@@ -4095,7 +4074,7 @@ off:
 		pr_err("Failed to disable vga_core_regulator\n");
 		result = err;
 	}
-	
+
 	/* ldo 12 */
 	/*Turn 3M &VGA CAM_A_2.8V off*/
 	err = regulator_disable(cam_vga_avdd_regulator);
@@ -4119,7 +4098,7 @@ static int SR030pc30_power_on(void)
 		pr_err("Failed to initialize camera regulators\n");
 		return -EINVAL;
 	}
-	
+
 	/* CAM_MEGA_EN - GPJ0(6) */
 	err = gpio_request(GPIO_CAM_MEGA_EN, "GPJ0");
 	if(err) {
@@ -4147,12 +4126,12 @@ static int SR030pc30_power_on(void)
 		printk(KERN_ERR "failed to request GPJ14 for camera control\n");
 		return err;
 	}
-	
+
 	//LDO enable	
 	SR030pc30_ldo_en(TRUE);
-	
+
 	udelay(20); //20us
-	
+
 	// VGA CAM_VGA_EN HIGH
 	gpio_direction_output(S5PV210_GPJ1(2), 0);
 	gpio_set_value(S5PV210_GPJ1(2), 1);
@@ -4161,13 +4140,13 @@ static int SR030pc30_power_on(void)
 	s3c_gpio_cfgpin(GPIO_CAM_MCLK, S3C_GPIO_SFN(0x02));
 
 	udelay(10); //10us
-	
+
 	// 3M CAM_MEGA_EN HIGH
 	gpio_direction_output(GPIO_CAM_MEGA_EN, 0);
 	gpio_set_value(GPIO_CAM_MEGA_EN, 1);
 
 	mdelay(6); //5ms
-	
+
 	// 3M CAM_MEGA_nRST HIGH
 	gpio_direction_output(GPIO_CAM_MEGA_nRST, 0);
 	gpio_set_value(GPIO_CAM_MEGA_nRST, 1);
@@ -4179,17 +4158,17 @@ static int SR030pc30_power_on(void)
 	gpio_set_value(GPIO_CAM_MEGA_EN, 0);
 
 	udelay(10); //10us
-	
+
 	// VGA CAM_VGA_nRST HIGH
 	gpio_direction_output(S5PV210_GPJ1(4), 0);
 	gpio_set_value(S5PV210_GPJ1(4), 1);
-	
+
 	msleep(50); //50ms
-		
+
 	// VGA CAM_GPIO free
 	gpio_free(S5PV210_GPJ1(2));
 	gpio_free(S5PV210_GPJ1(4));
-	
+
 	//CAM_GPIO free
 	gpio_free(GPIO_CAM_MEGA_EN);
 	gpio_free(GPIO_CAM_MEGA_nRST);
@@ -4202,7 +4181,7 @@ static int SR030pc30_power_off(void)
 {
 	int err;
 	bool FALSE = false;
-	
+
 	printk(KERN_DEBUG "SR030pc30_power_off\n");
 
 	/* CAM_MEGA_EN - GPJ0(6) */
@@ -4211,28 +4190,28 @@ static int SR030pc30_power_off(void)
 		printk(KERN_ERR "failed to request GPJ0 for camera control\n");
 		return err;
 	}
-	
+
 	/* CAM_MEGA_nRST - GPJ1(5) */
 	err = gpio_request(GPIO_CAM_MEGA_nRST, "GPJ1");
 	if(err) {
 		printk(KERN_ERR "failed to request GPJ1 for camera control\n");
 		return err;
 	}
-	
+
 	/* CAM_VGA_EN - GPJ1(2) */
 	err = gpio_request(S5PV210_GPJ1(2), "GPJ12");
 	if(err) {
 		printk(KERN_ERR "failed to request GPJ12 for camera control\n");
 		return err;
 	}
-	
+
 	/* CAM_VGA_nRST - GPJ1(4) */
 	err = gpio_request(S5PV210_GPJ1(4), "GPJ14");
 	if(err) {
 		printk(KERN_ERR "failed to request GPJ14 for camera control\n");
 		return err;
 	}
-	
+
 	// VGA CAM_VGA_nRST - GPJ1(4) LOW
 	gpio_direction_output(S5PV210_GPJ1(4), 0);
 	gpio_set_value(S5PV210_GPJ1(4), 0);	
@@ -4240,12 +4219,12 @@ static int SR030pc30_power_off(void)
 	// 3M CAM_MEGA_nRST - GPJ1(5) LOW
 	gpio_direction_output(GPIO_CAM_MEGA_nRST, 0);
 	gpio_set_value(GPIO_CAM_MEGA_nRST, 0);
-	
+
 	udelay(50); //50us
-	
+
 	// 3M&VGA Mclk disable
 	s3c_gpio_cfgpin(GPIO_CAM_MCLK, 0);
-	
+
 	// VGA CAM_VGA_EN - GPJ1(2) LOW
 	gpio_direction_output(S5PV210_GPJ1(2), 0);
 	gpio_set_value(S5PV210_GPJ1(2), 0);
@@ -4253,14 +4232,14 @@ static int SR030pc30_power_off(void)
 	// 3M CAM_MEGA_EN - GPJ0(6) LOW
 	gpio_direction_output(GPIO_CAM_MEGA_EN, 0);
 	gpio_set_value(GPIO_CAM_MEGA_EN, 0);
-		
+
 	//LDO disable
 	SR030pc30_ldo_en(FALSE);
-	
+
 	// VGA CAM_GPIO free
 	gpio_free(S5PV210_GPJ1(2));
 	gpio_free(S5PV210_GPJ1(4));
-	
+
 	//CAM_GPIO free
 	gpio_free(GPIO_CAM_MEGA_EN);
 	gpio_free(GPIO_CAM_MEGA_nRST);
@@ -4413,7 +4392,7 @@ static inline int sr130pc10_power_on()
 	gpio_direction_output(GPIO_CAM_CORE_EN, 1);
 	gpio_free(GPIO_CAM_CORE_EN);
 	udelay(1);
-	
+
 	/* main CAM_SENSOR_A2.8V */
 	gpio_direction_output(GPIO_CAM_IO_EN, 1);
 	gpio_free(GPIO_CAM_IO_EN);
@@ -4434,7 +4413,7 @@ static inline int sr130pc10_power_on()
 		return -EINVAL;
 	}
 	udelay(1);
-	
+
 		/* CAM_ISP_1.8V */
 //	max8998_ldo_enable_direct(MAX8998_LDO14);	
 #ifdef CONFIG_S5PC110_DEMPSEY_BOARD
@@ -4582,7 +4561,7 @@ static inline int sr130pc10_power_off()
 		gpio_free(S5PV210_MP04(0));		
 	} 
 	udelay(100);
-	
+
 	/* Turn VT_SENSOR_A_2.8V */
 #ifdef CONFIG_REGULATOR_MAX8893
 	bh6173_ldo_disable_direct(1);//LDO 1
@@ -4607,7 +4586,7 @@ static inline int sr130pc10_power_off()
 	}
 	udelay(1);
 #endif
-	
+
 	/* CAM_ISP_1.8V */
 //	max8998_ldo_disable_direct(MAX8998_LDO14);
 #ifdef CONFIG_S5PC110_DEMPSEY_BOARD
@@ -4630,7 +4609,7 @@ static inline int sr130pc10_power_off()
 		return -EINVAL;
 	}
 	udelay(1);
-	
+
 	/* CAM_SENSOR_A2.8V */
 	gpio_direction_output(GPIO_CAM_IO_EN, 0);
 	gpio_free(GPIO_CAM_IO_EN);
@@ -4654,7 +4633,7 @@ static inline int sr130pc10_power_off()
 
 	/* CAM_SENSOR_CORE_1.2V */
 	gpio_direction_output(GPIO_CAM_CORE_EN, 0);
-	
+
 	gpio_free(GPIO_CAM_CORE_EN);	
 	gpio_free(GPIO_CAM_VGA_nSTBY);
 	gpio_free(GPIO_CAM_VGA_nRST);	
@@ -4666,7 +4645,7 @@ static inline int sr130pc10_power_off()
 static int sr130pc10_power_en(int onoff)
 {
 	int err=0;
-	
+
 	if (onoff != sr130pc10_powered_on) {
 		if (onoff)
 			err = sr130pc10_power_on();
@@ -4742,7 +4721,7 @@ static int m5mo_power_on_sr130()
 {
 
 	int ret;
-	
+
 	ret = gpio_request(GPIO_CAM_CORE_EN, "GPC1(1)");
 	if (ret) {
 		printk(KERN_ERR "failed to request gpio(GPIO_CAM_CORE_EN)\n");
@@ -4799,7 +4778,7 @@ static int m5mo_power_on_sr130()
 		}
 	}
 	pr_err("cam_af_regulator = %p\n", cam_af_regulator);
-	
+
 	/* CAM_SENSOR_IO_1.8V */	
 	if (IS_ERR_OR_NULL(cam_vga_avdd_regulator)) {
 		cam_vga_avdd_regulator = regulator_get(NULL, "vga_avdd");
@@ -4810,7 +4789,7 @@ static int m5mo_power_on_sr130()
 	}
 	pr_err("cam_isp_host_regulator = %p\n", cam_vga_avdd_regulator);
 
-	
+
 	/* CAM_ISP_CORE_1.2V */ 
 	ret = regulator_enable(cam_isp_core_regulator);
 	if (ret) {
@@ -4818,7 +4797,7 @@ static int m5mo_power_on_sr130()
 		return -EINVAL;
 	}
 	udelay(5);
-		
+
 	/* CAM_SENSOR_CORE_1.2V */
 	gpio_direction_output(GPIO_CAM_CORE_EN, 1);
 	gpio_free(GPIO_CAM_CORE_EN);
@@ -4928,7 +4907,7 @@ static int m5mo_power_down_sr130()
 {
 
 	int ret;
-	
+
 	s3c_i2c0_force_stop();
 
 	mdelay(5);
@@ -4969,7 +4948,7 @@ static int m5mo_power_down_sr130()
 		printk(KERN_ERR "faile to request gpio(GPIO_CAM_CORE_EN)\n");
 		return ret;
 	}
-	
+
 
 	//NAGSM_Android_HQ_Camera_SungkooLee_20101224 : GPIO_ISP_RESET was changed to MP04(1) in revision 0.5
 	/*	ISP_RESET */
@@ -5032,7 +5011,7 @@ static int m5mo_power_down_sr130()
 	bh6173_ldo_disable_direct(1);//LDO 1
 #endif
 	udelay(1);
-	
+
 	/* CAM_AF_2.8V */		
 		if (IS_ERR_OR_NULL(cam_af_regulator)) {
 		cam_af_regulator = regulator_get(NULL, "cam_af");
@@ -5055,7 +5034,7 @@ static int m5mo_power_down_sr130()
 	REG_power_onoff(0); //off
 #endif 	
 	udelay(1);
-	
+
 	/* CAM_SENSOR_IO_1.8V */
 	if (IS_ERR_OR_NULL(cam_vga_avdd_regulator)) {
 		cam_vga_avdd_regulator = regulator_get(NULL, "vga_avdd");
@@ -5109,7 +5088,7 @@ static int m5mo_power_on()
 {
 
 	int ret;
-	
+
 	ret = gpio_request(GPIO_CAM_CORE_EN, "GPC1(1)");
 	if (ret) {
 		printk(KERN_ERR "faile to request gpio(GPIO_CAM_CORE_EN)\n");
@@ -5217,7 +5196,7 @@ static int m5mo_power_down()
 {
 
 	int ret;
-	
+
 
 	s3c_i2c0_force_stop();
 	//NAGSM_Android_HQ_Camera_SungkooLee_20101224 : GPIO_ISP_RESET was changed to MP04(1) in revision 0.5
@@ -5360,7 +5339,7 @@ int err;
 		}
 		ldo3_status |= 1 << LDO3_MIPI;
 
-		
+
 	cam_mipi_regulator = regulator_get(NULL, "cam_vmipi");
 			if (IS_ERR_OR_NULL(cam_mipi_regulator)) {
 				pr_err("failed to get cam_mipi_regulator");
@@ -5380,7 +5359,7 @@ int err;
 		if (err) {
 				pr_err("Failed to enable usb_core during cam \n");
 				}
-		
+
 #endif
 
 	}
@@ -5409,7 +5388,7 @@ int err;
 					return err;
 					}
 		}
-		
+
 #ifdef CONFIG_S5PC110_DEMPSEY_BOARD
 		usb_core_for_cam = regulator_get(NULL, "usb_core");
 		if (IS_ERR_OR_NULL(usb_core_for_cam)) {
@@ -5453,7 +5432,7 @@ static int m5mo_power(int enable)
 
 		s3c_csis_power(enable);
 	}
-	
+
 
 	return ret;
 	}
@@ -5508,7 +5487,7 @@ static struct s3c_platform_camera m5mo = {
 	.mipi_lanes	= 2,
 	.mipi_settle	= 12,
 	.mipi_align	= 32,
-	
+
 	/* Polarity */
 	.inv_pclk	= 0,
 	.inv_vsync 	= 1,
@@ -5785,13 +5764,13 @@ static u8 t40_config_e[] = {PROCI_GRIPSUPPRESSION_T40,
 
 static u8 t42_config_e[] = {PROCI_TOUCHSUPPRESSION_T42,
 					0, 0, 0, 0, 0, 0, 0, 0};
-	
+
 	static u8 t46_config_e[] = {SPT_CTECONFIG_T46,
 					0, 3, 24, 35, 0, 0, 1, 0};
-	
+
 	static u8 t47_config_e[] = {PROCI_STYLUS_T47,
 					0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-	
+
 	/*MXT224E_0V5_CONFIG */
 	static u8 t48_config_e[] = {PROCG_NOISESUPPRESSION_T48,
 		3, 132, 64, 0, 0, 0, 0, 0, 10, 15, 
@@ -5800,7 +5779,7 @@ static u8 t42_config_e[] = {PROCI_TOUCHSUPPRESSION_T42,
 					0, 0, 0, 0, 32, 50, 2, 3, 1, 46,
 		MXT224_MAX_MT_FINGERS, 10, 40, 10, 10, 10, 10, 143, 40, 143, 
 		80, 18, 15, 0 };
-	
+
 	static u8 t48_config_e_ta[] = {PROCG_NOISESUPPRESSION_T48,
 		3, 132, 82, 0, 0, 0, 0, 0, 10, 15,
 		0, 0, 0, 6, 6, 0, 0, 64, 4, 64, 
@@ -5951,7 +5930,7 @@ static void fsa9480_usb_cb(bool attached)
 	if (charger_callbacks && charger_callbacks->set_cable)
 		charger_callbacks->set_cable(charger_callbacks, set_cable_status);
 #endif
-	
+
 }
 
 static void fsa9480_charger_cb(bool attached)
@@ -5982,7 +5961,7 @@ struct usb_gadget *gadget = platform_get_drvdata(&s3c_device_usbgadget);	//Build
 		switch_set_state(&switch_dock, 1);
 	else
 		switch_set_state(&switch_dock, 0);
-		
+
 #if !defined (CONFIG_S5PC110_HAWK_BOARD) && !defined (CONFIG_S5PC110_KEPLER_BOARD) && !defined (CONFIG_S5PC110_DEMPSEY_BOARD) && !defined (CONFIG_S5PC110_VIBRANTPLUS_BOARD) // mr work
 	if (gadget) 
 	{
@@ -5999,11 +5978,11 @@ struct usb_gadget *gadget = platform_get_drvdata(&s3c_device_usbgadget);	//Build
 	else
 	set_cable_status = CABLE_TYPE_NONE;	
 
-	   
+
 	if (charger_callbacks && charger_callbacks->set_cable)
 		charger_callbacks->set_cable(charger_callbacks, set_cable_status);
 #endif
-	
+
 }
 
 static void fsa9480_cardock_cb(bool attached)
@@ -6014,7 +5993,7 @@ struct usb_gadget *gadget = platform_get_drvdata(&s3c_device_usbgadget);
 		switch_set_state(&switch_dock, 2);
 	else
 		switch_set_state(&switch_dock, 0);
-		
+
 #if !defined (CONFIG_S5PC110_HAWK_BOARD) && !defined (CONFIG_S5PC110_KEPLER_BOARD) && !defined (CONFIG_S5PC110_DEMPSEY_BOARD) && !defined (CONFIG_S5PC110_VIBRANTPLUS_BOARD) // mr work
 //#if 0 /* doodlejump */
 // HDLNC_OPK_20110324 : For USB Charging in Cardock mode		
@@ -6339,7 +6318,7 @@ static void max17040_power_supply_unregister(struct power_supply *psy)
 static struct max17040_platform_data max17040_pdata = {
 	.power_supply_register = max17040_power_supply_register,
 	.power_supply_unregister = max17040_power_supply_unregister,
-	
+
 #if  defined(CONFIG_S5PC110_KEPLER_BOARD)
 	.rcomp_value = 0xD000,
 #elif defined(CONFIG_S5PC110_HAWK_BOARD)		
@@ -6394,7 +6373,7 @@ static int taos_power(bool on)
 				pr_err("[ERROR] failed to get optical_taos_triton_regulator");
 				return -1;
 			}
-			
+
 		}		
 		optical_taos_intialized = 1;
 	}
@@ -6405,7 +6384,7 @@ static int taos_power(bool on)
 	}
 
 	if ( on ) 	{
-	
+
 		regulator_set_voltage(optical_taos_triton_regulator, optical_taos_triton_LDO_volt, optical_taos_triton_LDO_volt);
 
 		/* Turn LDO13*/
@@ -6418,9 +6397,9 @@ static int taos_power(bool on)
 		taos_api_power_on();
 	} 
 	else {
-	
+
 		taos_api_power_off();
-		
+
 		err = regulator_disable(optical_taos_triton_regulator);
 		if (err) {
 			pr_err("[ERROR]  Failed to disable optical_taos_triton_regulator \n");
@@ -6439,7 +6418,7 @@ static int taos_light_adc_value(void)
 	ret = taos_api_get_light_adcvalue();
 
 	printk("(%s) adcvalue = [%d]\n", __func__, ret );
-	
+
 	return ret; 
 }
 
@@ -7748,7 +7727,7 @@ static void __init aries_machine_init(void)
 	android_pmem_set_platdata();
 #endif
 
-	
+
 #if defined (CONFIG_S5PC110_DEMPSEY_BOARD)	
 	s3c_gpio_cfgpin(GPIO_MASSMEMORY_EN2, S3C_GPIO_OUTPUT);
 	s3c_gpio_setpull(GPIO_MASSMEMORY_EN2, S3C_GPIO_PULL_NONE);
@@ -7894,7 +7873,7 @@ static void __init aries_machine_init(void)
 	register_reboot_notifier(&aries_reboot_notifier);
 
 	aries_switch_init();
-	
+
 #if ! defined (CONFIG_GPS_CHIPSET_STE_CG2900)
 #if !defined(CONFIG_ARIES_NTT)
 	gps_gpio_init();
@@ -7946,10 +7925,10 @@ void otg_phy_init(void)
 	/* set DC level as 6 (6%) */
 /*	writel((readl(S3C_USBOTG_PHYTUNE) & ~(0xf)) | (0x1<<2) | (0x1<<1),
 			S3C_USBOTG_PHYTUNE);         eye-diagram tuning      */
-	
+
 	writel((readl(S3C_USBOTG_PHYTUNE) & ~(0xf)) | (0xf),
 			S3C_USBOTG_PHYTUNE);
-	
+
 }
 EXPORT_SYMBOL(otg_phy_init);
 
@@ -8123,7 +8102,7 @@ void cg29xx_rts_gpio_control(int flag)
 		gpio_set_value(GPIO_GPS_RTS, 1);
 //		s3c_gpio_setpin(GPIO_GPS_RTS, 1); Kernel Panic
 	}		
-		
+
 }
 EXPORT_SYMBOL(cg29xx_rts_gpio_control);
 int cg29xx_cts_gpio_level(void)
