@@ -302,4 +302,3 @@ if [ ! -z ${output_file} ]; then
 	[ -z ${cpio_file} ] && rm ${cpio_tfile}
 fi
 exit 0
-
