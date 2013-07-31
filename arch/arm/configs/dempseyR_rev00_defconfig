@@ -47,12 +47,9 @@ CONFIG_KERNEL_GZIP=y
 # CONFIG_KERNEL_BZIP2 is not set
 # CONFIG_KERNEL_LZMA is not set
 # CONFIG_KERNEL_LZO is not set
-<<<<<<< HEAD:arch/arm/configs/dempseyR_rev00_defconfig
 # CONFIG_SWAP is not set
-=======
 CONFIG_KERNEL_XZ=y
 CONFIG_SWAP=y
->>>>>>> 2dcc7ee... Add Swap Zram function:arch/arm/configs/cyanogenmod_p1n_defconfig
 CONFIG_SYSVIPC=y
 CONFIG_SYSVIPC_SYSCTL=y
 # CONFIG_POSIX_MQUEUE is not set
@@ -2194,13 +2191,10 @@ CONFIG_LIBCRC32C=y
 CONFIG_ZLIB_INFLATE=y
 CONFIG_ZLIB_DEFLATE=y
 CONFIG_DECOMPRESS_GZIP=y
-<<<<<<< HEAD:arch/arm/configs/dempseyR_rev00_defconfig
-=======
 CONFIG_DECOMPRESS_BZIP2=y
 CONFIG_DECOMPRESS_LZMA=y
 CONFIG_LZO_COMPRESS=y
 CONFIG_LZO_DECOMPRESS=y
->>>>>>> 2dcc7ee... Add Swap Zram function:arch/arm/configs/cyanogenmod_p1n_defconfig
 CONFIG_REED_SOLOMON=y
 CONFIG_REED_SOLOMON_ENC8=y
 CONFIG_REED_SOLOMON_DEC8=y
